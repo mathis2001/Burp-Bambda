@@ -19,4 +19,4 @@ Burp Suite Bambda script that highlight top vulnerable HTTP parameters. (in scop
 
 # Burp-Bambda-JS-Functions-Analysis
 
-Burp Suite Bambda script that grep potentially risky functions. (in scope targets)
+Burp Suite Bambda script that grep potentially risky Javascript functions. (in scope targets)
