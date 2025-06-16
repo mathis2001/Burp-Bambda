@@ -3,7 +3,7 @@ HttpRequest req = requestResponse.request();
 
 // List of HTTP methods to test (user-supplied)
 String[] methods = new String[] {
-    "GET", "COPY", "OPTIONS", "PUT", "TRACE", "POST", "SEARCH", "MOVE", "PATCH", "ACL",
+    "GET", "POST" , "PUT", "PATCH", "DELETE", "TRACE", "SEARCH", "MOVE", "OPTIONS" , "COPY" , "ACL",
     "ARBITRARY", "BASELIN-CONTROL", "CHECKIN", "CHECKOUT", "CONNECT", "HEAD", "LABEL",
     "LOCK", "MERGE", "MKACTIVITY", "MKCOL", "MKWORKSPACE", "ORDERPATCH", "PROPFIND",
     "REPORT", "UNCHECKOUT", "UNLOCK", "UPDATE", "VERSION-CONTROL"
