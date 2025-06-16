@@ -1,0 +1,64 @@
+// Get original request
+HttpRequest req = requestResponse.request();
+String originalAuth = req.headerValue("Authorization");
+
+// Define test cases with descriptions
+List<String> descriptions = new ArrayList<>();
+List<HttpRequest> testRequests = new ArrayList<>();
+
+
+descriptions.add("Test #1 - Remove Authorization and Cookie headers");
+testRequests.add(req.withRemovedHeader("Authorization").withRemovedHeader("Cookie"));
+
+
+descriptions.add("Test #2 - Authorization header is empty");
+testRequests.add(req.withHeader("Authorization", ""));
+
+
+descriptions.add("Test #3 - Authorization Basic with invalid base64 value");
+testRequests.add(req.withHeader("Authorization", "Basic invalidbase64=="));
+
+
+descriptions.add("Test #4 - Authorization header with 'Basic ' but no credentials");
+testRequests.add(req.withHeader("Authorization", "Basic "));
+
+
+descriptions.add("Test #5 - Authorization header with 'Bearer ' but no credentials");
+testRequests.add(req.withHeader("Authorization", "Bearer "));
+
+descriptions.add("Test #6 - Authorization header with 'Bearer' and invalid value");
+testRequests.add(req.withHeader("Authorization", "Bearer 1"));
+
+descriptions.add("Test #7 - Authorization header with 'NTLM' but no credentials");
+testRequests.add(req.withHeader("Authorization", "NTLM "));
+
+descriptions.add("Test #8 - Authorization header with 'NTLM ' invalid base64 value");
+testRequests.add(req.withHeader("Authorization", "NTLM invalidbase64=="));
+
+
+if (originalAuth != null) {
+    descriptions.add("Test #5 - Lowercase 'authorization' header");
+    testRequests.add(req.withHeader("authorization", originalAuth));
+}
+
+
+if (originalAuth != null) {
+    descriptions.add("Test #6 - X-Original-Authorization header");
+    testRequests.add(req.withHeader("X-Original-Authorization", originalAuth));
+}
+
+
+if (originalAuth != null) {
+    descriptions.add("Test #7 - X-Forwarded-Authorization header");
+    testRequests.add(req.withHeader("X-Forwarded-Authorization", originalAuth));
+}
+
+
+for (int i = 0; i < testRequests.size(); i++) {
+    HttpRequest testReq = testRequests.get(i);
+    HttpResponse res = api().http().sendRequest(testReq).response();
+
+    logging().logToOutput("=== " + descriptions.get(i) + " ===");
+    logging().logToOutput("Status Code: " + res.statusCode());
+    logging().logToOutput("Response Body:\n" + res.bodyToString());
+}
