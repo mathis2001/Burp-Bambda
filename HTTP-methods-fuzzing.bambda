@@ -1,0 +1,33 @@
+// Original request
+HttpRequest req = requestResponse.request();
+
+// List of HTTP methods to test (user-supplied)
+String[] methods = new String[] {
+    "GET", "COPY", "OPTIONS", "PUT", "TRACE", "POST", "SEARCH", "MOVE", "PATCH", "ACL",
+    "ARBITRARY", "BASELIN-CONTROL", "CHECKIN", "CHECKOUT", "CONNECT", "HEAD", "LABEL",
+    "LOCK", "MERGE", "MKACTIVITY", "MKCOL", "MKWORKSPACE", "ORDERPATCH", "PROPFIND",
+    "REPORT", "UNCHECKOUT", "UNLOCK", "UPDATE", "VERSION-CONTROL"
+};
+
+// Store descriptions and test requests
+List<String> descriptions = new ArrayList<>();
+List<HttpRequest> testRequests = new ArrayList<>();
+
+for (int i = 0; i < methods.length; i++) {
+    String method = methods[i];
+    descriptions.add("Test #" + (i + 1) + " - HTTP Method: " + method);
+
+    // Replace method; note: some servers may reject malformed or uncommon methods
+    HttpRequest modifiedReq = req.withMethod(method);
+    testRequests.add(modifiedReq);
+}
+
+// Send and log responses
+for (int i = 0; i < testRequests.size(); i++) {
+    HttpRequest testReq = testRequests.get(i);
+    HttpResponse res = api().http().sendRequest(testReq).response();
+
+    logging().logToOutput("=== " + descriptions.get(i) + " ===");
+    logging().logToOutput("Status Code: " + res.statusCode());
+    logging().logToOutput("Response Body:\n" + res.bodyToString());
+}
