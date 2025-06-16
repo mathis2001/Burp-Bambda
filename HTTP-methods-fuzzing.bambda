@@ -1,7 +1,7 @@
 // Original request
 HttpRequest req = requestResponse.request();
 
-// List of HTTP methods to test (user-supplied)
+// List of HTTP methods to test
 String[] methods = new String[] {
     "GET", "POST" , "PUT", "PATCH", "DELETE", "TRACE", "SEARCH", "MOVE", "OPTIONS" , "COPY" , "ACL",
     "ARBITRARY", "BASELIN-CONTROL", "CHECKIN", "CHECKOUT", "CONNECT", "HEAD", "LABEL",
@@ -17,7 +17,6 @@ for (int i = 0; i < methods.length; i++) {
     String method = methods[i];
     descriptions.add("Test #" + (i + 1) + " - HTTP Method: " + method);
 
-    // Replace method; note: some servers may reject malformed or uncommon methods
     HttpRequest modifiedReq = req.withMethod(method);
     testRequests.add(modifiedReq);
 }
