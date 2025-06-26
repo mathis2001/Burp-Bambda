@@ -15,10 +15,13 @@ HttpRequest req = requestResponse.request();
 for (int i = 0; i < bearerTokens.size(); i++) {
     String token = bearerTokens.get(i);
     
+    HttpRequest testRequest = req.withRemovedHeader("Authorization");
+    
+    testRequest = testRequest.withHeader("Authorization", "Bearer " + token);
+    
     String description = "Test #" + (i + 1) + " - Authorization header with Bearer token: " + token;
     descriptions.add(description);
-    
-    testRequests.add(req.withHeader("Authorization", "Bearer " + token));
+	 testRequests.add(testRequest);    
 }
 
 for (int i = 0; i < testRequests.size(); i++) {
