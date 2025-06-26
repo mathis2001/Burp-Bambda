@@ -1,0 +1,31 @@
+//Define your list of Tokens here 
+List<String> bearerTokens = Arrays.asList(
+    "token-role-1",
+    "token-role-2",
+    "token-role-3",
+    "token-role-4",
+    "token-role-5"
+);
+
+List<String> descriptions = new ArrayList<>();
+List<HttpRequest> testRequests = new ArrayList<>();
+
+HttpRequest req = requestResponse.request();
+
+for (int i = 0; i < bearerTokens.size(); i++) {
+    String token = bearerTokens.get(i);
+    
+    String description = "Test #" + (i + 1) + " - Authorization header with Bearer token: " + token;
+    descriptions.add(description);
+    
+    testRequests.add(req.withHeader("Authorization", "Bearer " + token));
+}
+
+for (int i = 0; i < testRequests.size(); i++) {
+    HttpRequest testReq = testRequests.get(i);
+    HttpResponse res = api().http().sendRequest(testReq).response();
+
+    logging().logToOutput("=== " + descriptions.get(i) + " ===");
+    logging().logToOutput("Status Code: " + res.statusCode());
+    logging().logToOutput("Response Body:\n" + res.bodyToString());
+}
