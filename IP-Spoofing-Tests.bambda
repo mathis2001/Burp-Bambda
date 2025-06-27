@@ -1,0 +1,68 @@
+HttpRequest req = requestResponse.request();
+
+List<String> descriptions = new ArrayList<>();
+List<HttpRequest> testRequests = new ArrayList<>();
+
+String localhostIPv4 = "127.0.0.1";
+String localhostIPv6 = "::1";
+String privateIP1 = "192.168.1.100";
+String privateIP2 = "10.0.0.5";
+String privateIP3 = "172.16.5.10";
+String publicIP = "8.8.8.8";
+
+descriptions.add("Test #1 - X-Forwarded-For with 127.0.0.1");
+testRequests.add(req.withHeader("X-Forwarded-For", localhostIPv4));
+
+descriptions.add("Test #2 - X-Forwarded-For with ::1");
+testRequests.add(req.withHeader("X-Forwarded-For", localhostIPv6));
+
+descriptions.add("Test #3 - X-Forwarded-For with private IP 192.168.1.100");
+testRequests.add(req.withHeader("X-Forwarded-For", privateIP1));
+
+descriptions.add("Test #4 - X-Forwarded-For with private IP 10.0.0.5");
+testRequests.add(req.withHeader("X-Forwarded-For", privateIP2));
+
+descriptions.add("Test #5 - X-Forwarded-For with private IP 172.16.5.10");
+testRequests.add(req.withHeader("X-Forwarded-For", privateIP3));
+
+descriptions.add("Test #6 - X-Forwarded-For with multiple IPs (10.0.0.5, public IP)");
+testRequests.add(req.withHeader("X-Forwarded-For", privateIP2 + ", " + publicIP));
+
+descriptions.add("Test #7 - X-Client-IP with 10.0.0.5");
+testRequests.add(req.withHeader("X-Client-IP", privateIP2));
+
+descriptions.add("Test #8 - X-Real-IP with 192.168.1.100");
+testRequests.add(req.withHeader("X-Real-IP", privateIP1));
+
+descriptions.add("Test #9 - Client-IP with 172.16.5.10");
+testRequests.add(req.withHeader("Client-IP", privateIP3));
+
+descriptions.add("Test #10 - Forwarded header with for=127.0.0.1");
+testRequests.add(req.withHeader("Forwarded", "for=" + localhostIPv4));
+
+descriptions.add("Test #11 - Forwarded header with for=10.0.0.5");
+testRequests.add(req.withHeader("Forwarded", "for=" + privateIP2));
+
+descriptions.add("Test #12 - X-Originating-IP with 192.168.1.100");
+testRequests.add(req.withHeader("X-Originating-IP", privateIP1));
+
+descriptions.add("Test #13 - All spoofing headers set to 10.0.0.5");
+testRequests.add(
+    req.withHeader("X-Forwarded-For", privateIP2)
+       .withHeader("X-Client-IP", privateIP2)
+       .withHeader("X-Real-IP", privateIP2)
+       .withHeader("Client-IP", privateIP2)
+       .withHeader("Forwarded", "for=" + privateIP2)
+);
+
+descriptions.add("Test #14 - X-Forwarded-For with public IP 8.8.8.8 (control)");
+testRequests.add(req.withHeader("X-Forwarded-For", publicIP));
+
+for (int i = 0; i < testRequests.size(); i++) {
+    HttpRequest testReq = testRequests.get(i);
+    HttpResponse res = api().http().sendRequest(testReq).response();
+
+    logging().logToOutput("=== " + descriptions.get(i) + " ===");
+    logging().logToOutput("Status Code: " + res.statusCode());
+    logging().logToOutput("Response Body:\n" + res.bodyToString());
+}
