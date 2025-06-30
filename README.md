@@ -49,7 +49,7 @@ Repeat the request with HTTP headers often used to spoof the client IP like X-Cl
 
 [ToDo]
 
-## JS-Functions-Analysis.txt
+## JS-Functions-Analysis.bambda
 
 Highlight HTTP responses containing potentially dangerous JS Functions in the HTTP history
 
@@ -57,7 +57,7 @@ Highlight HTTP responses containing potentially dangerous JS Functions in the HT
 
 [ToDo]
 
-## ParamHighlighter.txt
+## ParamHighlighter.bambda
 
 Highlight HTTP requests containing parameters that are often vulnerable to SSRF (Yellow), SQLi (Red), XSS (Blue), LFI (Orange), Open Redirect (Green) and RCE (White)
 
