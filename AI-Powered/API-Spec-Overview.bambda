@@ -1,0 +1,14 @@
+try {
+
+var selectedText = selection.responseSelection().contents().toString();
+if (selectedText.isEmpty()) {
+    return;
+}
+var systemMessage = "You are an experienced penetration tester. Based on the latest OWASP API top 10, explain what endpoint could be vulnerable to what type of vulnerability";
+var aiOutput = ai().prompt().execute(Message.systemMessage(systemMessage), Message.userMessage(selectedText)).content();
+logging.logToOutput(aiOutput);
+
+} catch (PromptException e) {
+
+logging.logToError("An error occurred while processing the prompt: " + e.getMessage());
+}
