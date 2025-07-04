@@ -95,4 +95,20 @@ Highlight HTTP requests containing parameters that are often vulnerable to SSRF 
 
 ### Screenshot
 
-[ToDo]
+![image](https://github.com/user-attachments/assets/46074f5e-e68c-438c-b3ba-6ab05fb6bd61)
+
+## URL-match-and-replace.bambda
+
+Match any HTTPS URLs in requests and replace them by a burp collaborator payload.
+
+### Screenshot
+
+![image](https://github.com/user-attachments/assets/b2d86a51-5046-46ab-8e9b-b6cab451d6d3)
+
+## API-Spec-Overview.bambda
+
+Analyze selected Swagger/OpenAPI specification with AI to give some hints based on the OWASP API top 10.
+
+### Screenshot
+
+![image](https://github.com/user-attachments/assets/a5595a65-5fc7-47a7-bfc5-a111a29e082c)
