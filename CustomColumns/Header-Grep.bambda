@@ -1,0 +1,3 @@
+return requestResponse.hasResponse() && requestResponse.response().hasHeader("[placeholder]")
+  ? requestResponse.response().headerValue("[placeholder]")
+  : "";
