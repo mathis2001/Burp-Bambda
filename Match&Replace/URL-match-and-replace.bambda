@@ -1,0 +1,13 @@
+var req = requestResponse.request();
+var collaborator = "https://" + api().collaborator().defaultPayloadGenerator().generatePayload();
+
+var urlRegex = "(?i)(https?://[^\\s\"']+|https%3A%2F%2F[^\\s\"']+)";
+
+var reqStr = req.toString();
+String replaced = reqStr;
+
+if (reqStr.matches("(?s).*" + urlRegex + ".*")) {
+    replaced = reqStr.replaceAll(urlRegex, collaborator);
+}
+
+return HttpRequest.httpRequest(req.httpService(), replaced);
